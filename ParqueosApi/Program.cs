@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,19 +12,27 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connection = String.Empty;
-if (builder.Environment.IsDevelopment())
-{
-    builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
-    connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTION_STRING");
-}
-else
-{
-    connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTION_STRING");
-}
+//Azure Keyvault connection
+var keyVaultEndpoint = new Uri(builder.Configuration["VaultKey"]);
+var secretClient = new SecretClient(keyVaultEndpoint, new DefaultAzureCredential());
+KeyVaultSecret kvs = secretClient.GetSecret("parqueoappsecret");
+builder.Services.AddDbContext<UsuariosDbContext>(o => o.UseSqlServer(kvs.Value));
 
-builder.Services.AddDbContext<UsuariosDbContext>(options =>
-    options.UseSqlServer(connection));
+
+
+//var connection = String.Empty;
+//if (builder.Environment.IsDevelopment())
+//{
+//    builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
+//    connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTION_STRING");
+//}
+//else
+//{
+//    connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTION_STRING");
+//}
+
+//builder.Services.AddDbContext<UsuariosDbContext>(options =>
+//    options.UseSqlServer(connection));
 
 var app = builder.Build();
 
