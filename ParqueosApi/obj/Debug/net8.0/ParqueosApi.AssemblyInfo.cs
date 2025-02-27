@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("6937d130-d9fb-47d2-8b37-dff05364a0da")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("ParqueosApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4c090367f7d16e1c7906cc61ee6bbfcf24355cb5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+28cc290c86cf3dcaca8b7dc8fabdad307c5b39dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("ParqueosApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ParqueosApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
